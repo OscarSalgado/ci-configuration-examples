@@ -39,3 +39,16 @@ jobs:
       #  uses: matlab-actions/run-command@v1
       #  with:
       #    command: addpath('code'); results = runtests('IncludeSubfolders', true); assertSuccess(results);
+      - name: Upload results artifact
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: test-restuls
+          path: test-results/results.xml
+      
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v1
+        if: always()
+        with:
+          files: test-results/results.xml
+          report_individual_runs: "true"
