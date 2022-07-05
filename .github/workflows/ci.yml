@@ -33,18 +33,14 @@ jobs:
         uses: matlab-actions/run-tests@v1
         with:
           source-folder: code
+          test-results-junit: test-results/results.xml
+          code-coverage-cobertura: code-coverage/coverage.xml
 
       # As an alternative to run-tests, you can use run-command to execute a MATLAB script, function, or statement.
       #- name: Run all tests
       #  uses: matlab-actions/run-command@v1
       #  with:
       #    command: addpath('code'); results = runtests('IncludeSubfolders', true); assertSuccess(results);
-      - name: Upload results artifact
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: test-restuls
-          path: test-results/results.xml
       
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v1
@@ -52,3 +48,25 @@ jobs:
         with:
           files: test-results/results.xml
           report_individual_runs: "true"
+      
+      - name: Code Coverage Summary Report
+        uses: irongut/CodeCoverageSummary@v1.2.0
+        if: always()
+        with:
+          filename: code-coverage/coverage.xml
+          format: markdown
+          badge: true
+
+      - name: Upload results artifact
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: test-restuls
+          path: test-results/results.xml
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: code-coverage
+          path: code-coverage/coverage.xml
