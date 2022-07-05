@@ -27,8 +27,6 @@ jobs:
       # Sets up MATLAB on the GitHub Actions runner
       - name: Setup MATLAB
         uses: matlab-actions/setup-matlab@v1
-        with:
-          release: 2021b
 
       # Runs a set of commands using the runners shell
       - name: Run all tests
@@ -51,14 +49,6 @@ jobs:
           files: test-results/results.xml
           report_individual_runs: "true"
       
-      - name: Code Coverage Summary Report
-        uses: irongut/CodeCoverageSummary@v1.2.0
-        if: always()
-        with:
-          filename: code-coverage/coverage.xml
-          format: markdown
-          badge: true
-
       - name: Upload results artifact
         uses: actions/upload-artifact@v2
         if: always()
