@@ -27,6 +27,8 @@ jobs:
       # Sets up MATLAB on the GitHub Actions runner
       - name: Setup MATLAB
         uses: matlab-actions/setup-matlab@v1
+        with:
+          release: 2021b
 
       # Runs a set of commands using the runners shell
       - name: Run all tests
@@ -61,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: test-restuls
+          name: test-results
           path: test-results/results.xml
 
       - name: Upload coverage artifact
